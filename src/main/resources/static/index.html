@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Token Generator</h1>
+
+<h2>Please select the environemt and application you want to generate token for : </h2>
+
+
+    <label for="scope">Choose your environment:</label>
+    <select name="environment" id="environment">
+        <option> ---Choose Environment--- </option>
+        <option value="DT">TEST</option>
+        <option value="DI">SIT</option>
+        <option value="DP">PrePROD</option>
+
+    </select>
+    <br><br>
+    <label for="scope">Choose your application:</label>
+    <select name="scope" id="scope">
+        <option> ---Choose Application--- </option>
+            <option value="online">CPS</option>
+            <option value="pcipal">MOTO</option>
+            <option value="ivr">IVR</option>
+    </select>
+     <br><br>
+     
+     <label for="token">Token:</label>
+     <br>
+    <textarea col="3" row="40" id="token">
+    </textarea>
+    <br><br>
+	
+    <input type="submit" id="generateToken" value="Submit">
+
+<script>
+document.getElementById("generateToken").addEventListener("click", getToken);
+
+function getToken(){
+	var envrionment = document.querySelector("#environment").value;
+	var application = document.querySelector("#scope").value;
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	       var token = xhttp.responseText;
+	       document.querySelector("#token").value = token;
+	    }
+	};
+
+	xhttp.open("GET", `${window.location.origin}/token/${envrionment}/${application}`, true);
+	xhttp.send();
+}
+</script>
+</body>
+</html>
