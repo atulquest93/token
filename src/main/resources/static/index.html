@@ -22,7 +22,7 @@
     </select>
     <br><br>
 </form>
-<input type="submit" id="generateToken" value="Submit" onclick="return validationApplication()">
+<input type="submit" id="generateToken" value="Submit">
 <label for="token">
     <h4>Token:</h4>
 </label>
@@ -30,55 +30,53 @@
 <br><br>
 <button type="button" onclick="ClearToken();">Clear Token</button>
 <script>
-         document.getElementById("generateToken").addEventListener("click", getToken);
+document.getElementById("generateToken").addEventListener("click", getToken);
 
-         function getToken(){
-         	var environment = document.querySelector("#environment").value;
-         	var application = document.querySelector("#application").value;
+function getToken() {
 
-         	var xhttp = new XMLHttpRequest();
-         	xhttp.onreadystatechange = function() {
-         	    if (this.readyState == 4 && this.status == 200) {
-         	       var token = xhttp.responseText;
-         	       document.querySelector("#token").value = token;
-         	    }
-         	};
+	if (validationApplication()) {
+		var environment = document.querySelector("#environment").value;
+		var application = document.querySelector("#application").value;
 
-         	xhttp.open("GET", `${window.location.origin}/token/${environment}/${application}`, true);
-         	xhttp.send();
-         }
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				var token = xhttp.responseText;
+				document.querySelector("#token").value = token;
+			}
+		};
 
-         function ClearToken() {
+		xhttp.open("GET", `${window.location.origin}/token/${environment}/${application}`, true);
+		xhttp.send();
 
-              document.getElementById("token").value = "";
-         }
+	}
+}
 
-         function validationApplication() {
+function ClearToken() {
 
-         if (document.getElementById("environment").value == "Env Not Selected"
-         && document.getElementById("application").value == "App Not Selected")
-                {
-                 alert("Please select environment and application.");
-                 document.authToken.application.focus();
-                     return false;
-                }
+	document.getElementById("token").value = "";
+}
 
-                if (document.getElementById("environment").value == "Env Not Selected")
-                {
-                 alert("Please select environment.");
-                 document.authToken.application.focus();
-                     return false;
-                }
-                     else  if (document.getElementById("application").value == "App Not Selected") {
-                     alert("Please select application.");
-                     document.authToken.application.focus();
-                     return false;
-                 }
+function validationApplication() {
 
-             }
-             
+	if (document.getElementById("environment").value == "Env Not Selected" &&
+		document.getElementById("application").value == "App Not Selected") {
+		alert("Please select environment and application.");
+		document.authToken.application.focus();
+		return false;
+	}
 
-
-      </script>
+	if (document.getElementById("environment").value == "Env Not Selected") {
+		alert("Please select environment.");
+		document.authToken.application.focus();
+		return false;
+	} else if (document.getElementById("application").value == "App Not Selected") {
+		alert("Please select application.");
+		document.authToken.application.focus();
+		return false;
+	}
+	return true;
+} 
+</script>
 </body>
 </html>
