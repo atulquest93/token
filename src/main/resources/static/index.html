@@ -37,19 +37,21 @@
 document.getElementById("generateToken").addEventListener("click", getToken);
 
 function getToken(){
-	var envrionment = document.querySelector("#environment").value;
-	var application = document.querySelector("#scope").value;
+	if(validationApplication() != false){
+	        var envrionment = document.querySelector("#environment").value;
+		var application = document.querySelector("#scope").value;
 
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-	    if (this.readyState == 4 && this.status == 200) {
-	       var token = xhttp.responseText;
-	       document.querySelector("#token").value = token;
-	    }
-	};
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		       var token = xhttp.responseText;
+		       document.querySelector("#token").value = token;
+		    }
+		};
 
-	xhttp.open("GET", `${window.location.origin}/token/${envrionment}/${application}`, true);
-	xhttp.send();
+		xhttp.open("GET", `${window.location.origin}/token/${envrionment}/${application}`, true);
+		xhttp.send();
+	}
 }
 </script>
 </body>
